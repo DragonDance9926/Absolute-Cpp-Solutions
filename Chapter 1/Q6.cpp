@@ -1,7 +1,7 @@
 #include <iostream>
 using namespace std;
 int main(){
-    const int overworkhourlimit = 40;
+    const int overworkhourlimit = 48;
     const double work = 16.78;
     const double overwork = work * 1.5;
     const double social_tax = 0.06;

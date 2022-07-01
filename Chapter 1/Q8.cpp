@@ -8,7 +8,7 @@ int main(){
     cout << "Enter a number" << endl;
     cin >> n;
     guess = n / 2;
-    for (int i = 0; i < 10; i++){
+    for (int i = 0; i < 5; i++){
         r = n / guess;
         guess = (guess + r) / 2;
     }
