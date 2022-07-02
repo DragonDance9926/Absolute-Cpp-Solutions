@@ -8,7 +8,7 @@ typedef struct sizes{
 sizes get_sizes(double height_inches, double weight_pounds, int age){
     sizes res = {0, 0, 0};
     res.hat_size = weight_pounds/ height_inches * 2.9;
-    res.jacket_size = ((height_inches * weight_pounds) / 288) + (0.125 * ((age - 30) / 10));
+    res.jacket_size = ((height_inches * weight_pounds) / 288) + ((age - 30) / 10)*(0.125 * ((age - 30) / 10));
     res.waist_size = (weight_pounds / 5.7) + (0.1 * ((age - 28) / 2));
     return res;
 }
