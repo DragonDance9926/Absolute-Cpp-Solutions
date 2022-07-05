@@ -7,7 +7,7 @@
 using namespace std;
 #define width 80
 #define height 22
-#define iter 80
+#define iter 1000
 
 bool boolisAliveorDead(int board[height][width] ,int i, int j){
     int alive_count = 0;
