@@ -1,118 +1,157 @@
-#include <iostream>
+#include<iostream>
 #include <cmath>
 using namespace std;
-
 class Complex{
     private:
         double real;
         double imaginary;
-        double getreal();
-        double getimaginary();
     public:
-        Complex(double r, double i);
-        Complex(double r);
         Complex();
-        friend ostream &operator<<(ostream &os, const Complex &c);
-        friend istream &operator>>(istream &is, Complex &c);
-        Complex operator+(Complex c);
-        Complex operator-(Complex c);
-        Complex operator*(Complex c);
-        Complex operator/(Complex c);
-        Complex operator+=(Complex c);
-        Complex operator-=(Complex c);
-        Complex operator*=(Complex c);
-        Complex operator/=(Complex c);
-        bool operator==(Complex c);
-        bool operator!=(Complex c);
+        Complex(double, double);
+        Complex(const Complex&);
+        ~Complex();
+        void setReal(double);
+        void setImaginary(double);
+        double getReal() const;
+        double getImaginary() const;
+        Complex operator+(const Complex&);
+        Complex operator-(const Complex&);
+        Complex operator*(const Complex&);
+        Complex operator/(const Complex&);
+        Complex& operator=(const Complex&);
+        Complex operator+=(double);
+        Complex operator-=(double);
+        Complex operator*=(double);
+        Complex operator/=(double);
+        Complex operator+(double);
+        Complex operator-(double);
+        Complex operator*(double);
+        Complex operator/(double);
+        friend ostream& operator<<(ostream&, const Complex&);
+        friend istream& operator>>(istream&, Complex&);
+        bool operator==(const Complex&);
+        bool operator!=(const Complex&);
 };
 
-Complex::Complex(double r, double i){
-    real = r;
-    imaginary = i;
-}
-Complex::Complex(double r){
-    real = r;
-    imaginary = 0;
-}
 Complex::Complex(){
     real = 0;
     imaginary = 0;
 }
-double Complex::getreal(){
+Complex::Complex(double r, double i){
+    real = r;
+    imaginary = i;
+}
+Complex::Complex(const Complex& c){
+    real = c.real;
+    imaginary = c.imaginary;
+}
+Complex::~Complex(){
+    real = 0;
+    imaginary = 0;
+}
+void Complex::setReal(double r){
+    real = r;
+}
+void Complex::setImaginary(double i){
+    imaginary = i;
+}
+double Complex::getReal() const{
     return real;
 }
-double Complex::getimaginary(){
+double Complex::getImaginary() const{
     return imaginary;
 }
-ostream &operator<<(ostream &os, const Complex &c){
+Complex Complex::operator+(const Complex& c){
+    return Complex(real + c.real, imaginary + c.imaginary);
+}
+Complex Complex::operator-(const Complex& c){
+    return Complex(real - c.real, imaginary - c.imaginary);
+}
+Complex Complex::operator*(const Complex& c){
+    return Complex(real * c.real - imaginary * c.imaginary, real * c.imaginary + imaginary * c.real);
+}
+Complex Complex::operator/(const Complex& c){
+    return Complex((real * c.real + imaginary * c.imaginary) / (c.real * c.real + c.imaginary * c.imaginary), (imaginary * c.real - real * c.imaginary) / (c.real * c.real + c.imaginary * c.imaginary));
+}
+Complex& Complex::operator=(const Complex& c){
+    real = c.real;
+    imaginary = c.imaginary;
+    return *this;
+}
+Complex Complex::operator+=(double d){
+    real += d;
+    return *this;
+}
+Complex Complex::operator-=(double d){
+    real -= d;
+    return *this;
+}
+Complex Complex::operator*=(double d){
+    real *= d;
+    imaginary *= d;
+    return *this;
+}
+Complex Complex::operator/=(double d){
+    real /= d;
+    imaginary /= d;
+    return *this;
+}
+Complex Complex::operator+(double d){
+    return Complex(real + d, imaginary);
+}
+Complex Complex::operator-(double d){
+    return Complex(real - d, imaginary);
+}
+Complex Complex::operator*(double d){
+    return Complex(real * d, imaginary * d);
+}
+Complex Complex::operator/(double d){
+    return Complex(real / d, imaginary / d);
+}
+ostream& operator<<(ostream& os, const Complex& c){
     os << c.real << " + " << c.imaginary << "i";
     return os;
 }
-istream &operator>>(istream &is, Complex &c){
-    is >> c.real >> c.imaginary;
+istream& operator>>(istream& is, Complex& c){
+    cout << "Enter real part: ";
+    is >> c.real;
+    cout << "Enter imaginary part: ";
+    is >> c.imaginary;
     return is;
 }
-Complex Complex::operator+(Complex c){
-    return Complex(real + c.real, imaginary + c.imaginary);
-}
-Complex Complex::operator-(Complex c){
-    return Complex(real - c.real, imaginary - c.imaginary);
-}
-Complex Complex::operator*(Complex c){
-    return Complex(real * c.real - imaginary * c.imaginary, real * c.imaginary + imaginary * c.real);
-}
-Complex Complex::operator/(Complex c){
-    return Complex((real * c.real + imaginary * c.imaginary) / (c.real * c.real + c.imaginary * c.imaginary), (imaginary * c.real - real * c.imaginary) / (c.real * c.real + c.imaginary * c.imaginary));
-}
-Complex Complex::operator+=(Complex c){
-    real += c.real;
-    imaginary += c.imaginary;
-    return *this;
-}
-Complex Complex::operator-=(Complex c){
-    real -= c.real;
-    imaginary -= c.imaginary;
-    return *this;
-}
-Complex Complex::operator*=(Complex c){
-    real = real * c.real - imaginary * c.imaginary;
-    imaginary = real * c.imaginary + imaginary * c.real;
-    return *this;
-}
-Complex Complex::operator/=(Complex c){
-    real = (real * c.real + imaginary * c.imaginary) / (c.real * c.real + c.imaginary * c.imaginary);
-    imaginary = (imaginary * c.real - real * c.imaginary) / (c.real * c.real + c.imaginary * c.imaginary);
-    return *this;
-}
-bool Complex::operator==(Complex c){
+bool Complex::operator==(const Complex& c){
     return real == c.real && imaginary == c.imaginary;
 }
-bool Complex::operator!=(Complex c){
+bool Complex::operator!=(const Complex& c){
     return real != c.real || imaginary != c.imaginary;
 }
 
 int main(){
-    Complex c1, c2, c3;
-    cout << "Enter complex number 1: ";
+    cout << "Enter a complex number: ";
+    Complex c1;
     cin >> c1;
-    cout << "Enter complex number 2: ";
+    cout << "Enter another complex number: ";
+    Complex c2;
     cin >> c2;
+    cout << "c1 = " << c1 << endl;
+    cout << "c2 = " << c2 << endl;
     cout << "c1 + c2 = " << c1 + c2 << endl;
     cout << "c1 - c2 = " << c1 - c2 << endl;
     cout << "c1 * c2 = " << c1 * c2 << endl;
     cout << "c1 / c2 = " << c1 / c2 << endl;
-    cout << "Enter complex number 3: ";
-    cin >> c3;
-    c1 += c3;
-    cout << "c1 += c3; c1 = " << c1 << endl;
-    c1 -= c3;
-    cout << "c1 -= c3; c1 = " << c1 << endl;
-    c1 *= c3;
-    cout << "c1 *= c3; c1 = " << c1 << endl;
-    c1 /= c3;
-    cout << "c1 /= c3; c1 = " << c1 << endl;
-    if(c1 == c2)
-        cout << "c1 == c2" << endl;
-    else
-        cout << "c1 != c2" << endl;
+    cout << "c1 == c2 ? " << (c1 == c2 ? "true" : "false") << endl;
+    cout << "c1 != c2 ? " << (c1 != c2 ? "true" : "false") << endl;
+    cout << "Enter a real number: ";
+    double d;
+    cin >> d;
+    cout << "c1 + d = " << c1 + d << endl;
+    cout << "c1 - d = " << c1 - d << endl;
+    cout << "c1 * d = " << c1 * d << endl;
+    cout << "c1 / d = " << c1 / d << endl;
+    cout << "c1 += d = " << (c1 += d) << endl;
+    cout << "c1 -= d = " << (c1 -= d) << endl;
+    cout << "c1 *= d = " << (c1 *= d) << endl;
+    cout << "c1 /= d = " << (c1 /= d) << endl;
+    return 0;
 }
+
